@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import BackgroundImage from './Images/12.jpg'
+import BackgroundImage from './Images/aabbcc.gif'
 
 import './App.css';
 
@@ -16,7 +16,44 @@ const Login = () => {
   };
 
   return (
+ 
+   
+
+
     <div className="login-container">
+       <nav className="navbar">
+      <ul className="navbar-nav">
+        <li className="logo">
+          <a href="/" className="nav-link">
+            Logo
+          </a>
+        </li>
+
+        <li className="nav-item">
+          <a href="/" className="nav-link">
+            Home
+          </a>
+        </li>
+
+        <li className="nav-item">
+          <a href="/about" className="nav-link">
+            About
+          </a>
+        </li>
+
+        <li className="nav-item">
+          <a href="/contact" className="nav-link">
+            Contact
+          </a>
+        </li>
+
+        <li className="nav-item">
+          <a href="/login" className="nav-link">
+            Login
+          </a>
+        </li>
+      </ul>
+    </nav>
   <div className="column1">
     <img src={BackgroundImage} alt="Login Image" />
   </div>
