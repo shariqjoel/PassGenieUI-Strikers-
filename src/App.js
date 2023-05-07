@@ -1,114 +1,94 @@
-import React, { useState } from 'react';
-import BackgroundImage from './Images/aabbcc.gif'
-
+import Swal from 'sweetalert2'
+import withReactContent from 'sweetalert2-react-content'
+import React, { useState } from "react";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faPlus } from '@fortawesome/free-solid-svg-icons'
+import PasswordsList from './Pages/PasswordsList';
 import './App.css';
+import { Label } from 'reactstrap';
 
-const Login = () => {
-  const [username, setUsername] = useState('');
-  const [website, setWebsite] = useState('');
-  const [link, setLink] = useState('');
-  const [password, setPassword] = useState('');
+const App = () => {
+  const MySwal = withReactContent(Swal);
+  const [formData, setFormData] = useState({});
 
-
-  const handleLogin = (e) => {
-    e.preventDefault();
-    console.log(`Username: ${username}, Password: ${password}`);
+  const handleChange = (event) => {
+    setFormData({ ...formData, [event.target.name]: event.target.value });
   };
 
+  const handleSubmit = (event) => {
+    event.preventDefault();
+
+    MySwal.fire({
+      title: 'Form Data',
+      html: `
+        <p><strong>Username:</strong> ${formData.username}</p>
+        <p><strong>Email:</strong> ${formData.email}</p>
+        <p><strong>Password:</strong> ${formData.password}</p>
+        <p><strong>Confirm Password:</strong> ${formData.confirmPassword}</p>
+      `
+    });
+  }
+
+  const handleClick = () => {
+    MySwal.fire({
+      title: 'Add Password',
+      html: `
+
+
+        <div class="my-title-class">Say goodbye to password anxiety</div>
+        <div>
+        <label  class="my-label-class" for="password">USER NAME</label>
+        <input type="text" name="username" placeholder="User Name" class="swal2-input my-input-class" required>
+        </div>
+        <div>
+        <label  class="my-label-class" for="password">WEBSITE NAME</label>
+        <input type="email" name="email" placeholder="Website Name" class="swal2-input my-input-class" required>
+        </div>
+        <div>
+        <label class="my-label-class" for="password">WEBSITE LINK</label>
+        <input type="password" name="password" placeholder="Website Link" class="swal2-input my-input-class" required>
+        </div>
+
+        <div>
+        <label class="my-label-class" for="password">SET PASSWORD</label>
+        <input type="password" name="confirmPassword" placeholder="Password" class="swal2-input my-input-class" required>
+        </div>
+      `,
+      showCancelButton: true,
+      confirmButtonText: 'Submit',
+
+      customClass: {
+        container: 'my-modal-class',
+        closeButton: 'swal2-close',
+      },
+      preConfirm: () => {
+        return {
+          username: MySwal.getPopup().querySelector('[name="username"]').value,
+          email: MySwal.getPopup().querySelector('[name="email"]').value,
+          password: MySwal.getPopup().querySelector('[name="password"]').value,
+          confirmPassword: MySwal.getPopup().querySelector('[name="confirmPassword"]').value,
+        }
+      }
+    }).then((result) => {
+      if (result.isConfirmed) {
+        setFormData(result.value);
+      }
+    })
+  }
+
+
   return (
- 
-   
+    <>
+      <button className="plus-button" onClick={handleClick}>
+        <FontAwesomeIcon icon={faPlus} />
+      </button>
 
+      <label class="my-label1-class" for="password">Add New</label>
+  
+    <PasswordsList/>      
 
-    <div className="login-container">
-       <nav className="navbar">
-      <ul className="navbar-nav">
-        <li className="logo">
-          <a href="/" className="nav-link">
-            Logo
-          </a>
-        </li>
+    </>
+  )
+}
 
-        <li className="nav-item">
-          <a href="/" className="nav-link">
-            Home
-          </a>
-        </li>
-
-        <li className="nav-item">
-          <a href="/about" className="nav-link">
-            About
-          </a>
-        </li>
-
-        <li className="nav-item">
-          <a href="/contact" className="nav-link">
-            Contact
-          </a>
-        </li>
-
-        <li className="nav-item">
-          <a href="/login" className="nav-link">
-            Login
-          </a>
-        </li>
-      </ul>
-    </nav>
-  <div className="column1">
-    <img src={BackgroundImage} alt="Login Image" />
-  </div>
-  <div className="column2"  >
-
-    <h2  >Say Goodbye to Password Anxiety</h2>
-    <form onSubmit={handleLogin}>
-      <div className="input-group" > 
-        <label htmlFor="username">Username</label>
-        <input
-          type="text"
-          id="username"
-          value={username}
-          onChange={(e) => setUsername(e.target.value)}
-        />
-        
-      </div>
-      <div className="input-group" > 
-        <label htmlFor="username">Website Name</label>
-        <input
-          type="email"
-          id="email"
-          value={website}
-          
-          onChange={(e) => setWebsite(e.target.value)}
-        />
-        
-      </div>
-      <div className="input-group" > 
-        <label htmlFor="username">Website Link</label>
-        <input
-          type="tel"
-          id="contact"
-          value={link}
-          onChange={(e) => setLink(e.target.value)}
-        />
-        
-      </div>
-      <div className="input-group">
-        <label htmlFor="password">Password</label>
-        <input
-          type="password"
-          id="password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-        />
-      </div>
-      <button type="submit">Add</button>
-    </form>
-
-  </div>
-</div>
-
-
-  );
-};
-
-export default Login;
+export default App;
